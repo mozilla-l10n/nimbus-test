@@ -62,7 +62,7 @@ class StringExtraction:
                 self.translations[locale].update(
                     (
                         f"{experiment_id}:{entity.key}",
-                        entity.raw_val,
+                        entity.raw_val if entity.raw_val is not None else "",
                     )
                     for entity in p.parse()
                 )
@@ -101,20 +101,27 @@ class StringExtraction:
                         "translations": defaultdict(dict),
                         "complete_locales": [],
                     }
-                json_output[experiment_id]["translations"][locale][
-                    message_id
+                json_output[experiment_id]["translations"][message_id][
+                    locale
                 ] = translation
 
         # Identify complete locales for each experiment, and remove
         # translations for partially translated locales.
-        for exp_id, exp_data in json_output.items():
-            locales = list(exp_data["translations"].keys())
-            locales.sort()
-            reference_ids = list(exp_data["translations"][self.reference_locale].keys())
+        for exp_data in json_output.values():
+            translated_ids = defaultdict(list)
+            exp_locales = []
+            for message_id, translations in exp_data["translations"].items():
+                locales = list(translations.keys())
+                locales.sort()
+                exp_locales = list(set(locales + exp_locales))
+                for l in locales:
+                    translated_ids[l].append(message_id)
+
+            reference_ids = list(translated_ids[self.reference_locale])
 
             incomplete_locales = []
-            for l in locales:
-                l10n_ids = list(exp_data["translations"][l].keys())
+            for l in exp_locales:
+                l10n_ids = list(translated_ids[l])
                 if len(set(reference_ids) - set(l10n_ids)) == 0:
                     exp_data["complete_locales"].append(l)
                 else:
@@ -122,8 +129,10 @@ class StringExtraction:
             exp_data["complete_locales"].sort()
 
             # Remove partially translated locales
-            for l in incomplete_locales:
-                del exp_data["translations"][l]
+            for message_id, translations in exp_data["translations"].items():
+                for l in incomplete_locales:
+                    if l in translations:
+                        del translations[l]
 
         return json_output
 

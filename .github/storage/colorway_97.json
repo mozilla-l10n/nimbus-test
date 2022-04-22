@@ -1,12 +1,12 @@
 {
   "translations": {
-    "en-US": {
-      "colorways-title": "Life in color",
-      "fx100-message": "Switch to Firefox Home with themed background"
+    "colorways-title": {
+      "en-US": "Life in color",
+      "it": "Una vita a colori"
     },
-    "it": {
-      "colorways-title": "Una vita a colori",
-      "fx100-message": "Passa alla Pagina iniziale di Firefox con uno sfondo a tema"
+    "fx100-message": {
+      "en-US": "Switch to Firefox Home with themed background",
+      "it": "Passa alla Pagina iniziale di Firefox con uno sfondo a tema"
     }
   },
   "complete_locales": [

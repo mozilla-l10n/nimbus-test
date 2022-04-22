@@ -1,16 +1,34 @@
 {
   "translations": {
-    "en-US": {
-      "-button-term": "Test",
-      "button-test": "Test",
-      "button-test-ref1": "Test { -button-term }",
-      "button-test-ref2": "Test { button-test }",
-      "short": "Too short",
-      "wrong_character": "Too short",
-      "button-quote": "Wrong ' quote",
-      "button-quote1": "Wrong \"\" quote",
-      "button-with-var": "This is a { $var }",
-      "button-test2": null
+    "-button-term": {
+      "en-US": "Test"
+    },
+    "button-test": {
+      "en-US": "Test"
+    },
+    "button-test-ref1": {
+      "en-US": "Test { -button-term }"
+    },
+    "button-test-ref2": {
+      "en-US": "Test { button-test }"
+    },
+    "short": {
+      "en-US": "Too short"
+    },
+    "wrong_character": {
+      "en-US": "Too short"
+    },
+    "button-quote": {
+      "en-US": "Wrong ' quote"
+    },
+    "button-quote1": {
+      "en-US": "Wrong \"\" quote"
+    },
+    "button-with-var": {
+      "en-US": "This is a { $var }"
+    },
+    "button-test2": {
+      "en-US": ""
     }
   },
   "complete_locales": [

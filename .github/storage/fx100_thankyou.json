@@ -1,22 +1,24 @@
 {
   "translations": {
-    "en-US": {
-      "fx100-title": "100 Thank-Yous",
-      "fx100-message": "It’s our 100th release! Thanks for helping us build a better, healthier internet.",
-      "fx100-ok-button": "OK",
-      "fx100-cancel-button": "Cancel"
+    "fx100-title": {
+      "en-US": "100 Thank-Yous",
+      "fr": "100 remerciements",
+      "it": "100 Grazie"
     },
-    "fr": {
-      "fx100-title": "100 remerciements",
-      "fx100-message": "C'est notre 100ème sortie ! Merci de nous aider à construire un Internet meilleur et plus sain.",
-      "fx100-ok-button": "OK",
-      "fx100-cancel-button": "Annuler"
+    "fx100-message": {
+      "en-US": "It’s our 100th release! Thanks for helping us build a better, healthier internet.",
+      "fr": "C'est notre 100ème sortie ! Merci de nous aider à construire un Internet meilleur et plus sain.",
+      "it": "È la nostra centesima versione! Grazie per averci aiutato a costruire un Internet migliore e più sano."
     },
-    "it": {
-      "fx100-title": "100 Grazie",
-      "fx100-message": "È la nostra centesima versione! Grazie per averci aiutato a costruire un Internet migliore e più sano.",
-      "fx100-ok-button": "OK",
-      "fx100-cancel-button": "Annulla"
+    "fx100-ok-button": {
+      "en-US": "OK",
+      "fr": "OK",
+      "it": "OK"
+    },
+    "fx100-cancel-button": {
+      "en-US": "Cancel",
+      "fr": "Annuler",
+      "it": "Annulla"
     }
   },
   "complete_locales": [
