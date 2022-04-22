@@ -1,0 +1,34 @@
+{
+  "translations": {
+    "-button-term": {
+      "en-US": "Test"
+    },
+    "button-test": {
+      "en-US": "Test"
+    },
+    "button-test-ref1": {
+      "en-US": "Test { -button-term }"
+    },
+    "button-test-ref2": {
+      "en-US": "Test { button-test }"
+    },
+    "short": {
+      "en-US": "Too short"
+    },
+    "wrong_character": {
+      "en-US": "Too short"
+    },
+    "button-quote": {
+      "en-US": "Wrong ' quote"
+    },
+    "button-quote1": {
+      "en-US": "Wrong \"\" quote"
+    },
+    "button-test2": {
+      "en-US": null
+    }
+  },
+  "complete_locales": [
+    "en-US"
+  ]
+}
