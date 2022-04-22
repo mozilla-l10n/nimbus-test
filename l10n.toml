@@ -1,0 +1,30 @@
+# All files translated by the community by at least some locales should
+# be covered by the [[paths]] in this file.
+
+basepath = "."
+
+locales = [
+    "de",
+    "fr",
+    "it"
+]
+
+[[paths]]
+    reference = "en-US/all/*.ftl"
+    l10n = "{locale}/all/*.ftl"
+
+[[paths]]
+    reference = "en-US/subset/colorway_97.ftl"
+    l10n = "{locale}/subset/colorway_97.ftl"
+    locales = [
+        "de",
+        "it"
+    ]
+
+[[paths]]
+    reference = "en-US/subset/fx100_thankyou.ftl"
+    l10n = "{locale}/subset/fx100_thankyou.ftl"
+    locales = [
+        "fr",
+        "it"
+    ]
