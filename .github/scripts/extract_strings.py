@@ -30,14 +30,14 @@ class StringExtraction:
         self.l10n_path = l10n_path
         self.reference_locale = reference_locale
 
-    def extractStringsToml(self):
-        """Extract strings using TOML configuration."""
+    def extractStrings(self):
+        """Extract strings from TOML file."""
 
         basedir = os.path.dirname(self.l10n_path)
         project_config = paths.TOMLParser().parse(self.l10n_path, env={"l10n_base": ""})
         basedir = os.path.join(basedir, project_config.root)
 
-        translations_cache = {}
+        reference_cache = {}
 
         if not project_config.all_locales:
             print("No locales defined in the project configuration.")
@@ -60,9 +60,9 @@ class StringExtraction:
                     p = parser.getParser(reference_file)
                 except UserWarning:
                     continue
-                if key_path not in translations_cache:
+                if key_path not in reference_cache:
                     p.readFile(reference_file)
-                    translations_cache[key_path] = set(p.parse().keys())
+                    reference_cache[key_path] = set(p.parse().keys())
                     self.translations[self.reference_locale].update(
                         (
                             f"{experiment_id}:{entity.key}",
@@ -81,11 +81,6 @@ class StringExtraction:
                 )
             print(f"  {len(self.translations[locale])} strings extracted")
 
-    def extractStrings(self):
-        """Extract strings from all locales."""
-
-        self.extractStringsToml()
-
     def getTranslations(self):
         """Return translations and stats"""
 
@@ -102,7 +97,8 @@ class StringExtraction:
                     message_id
                 ] = translation
 
-        # Identify complete locales for each experiment
+        # Identify complete locales for each experiment, and remove
+        # translations for partially translated locales.
         for exp_id, exp_data in json_output.items():
             locales = list(exp_data["translations"].keys())
             locales.sort()
