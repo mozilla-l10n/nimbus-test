@@ -23,7 +23,9 @@ jobs:
         run: |
           python .github/scripts/extract_strings.py --toml l10n.toml --dest .github/storage
       - name: Commit changes
+        continue-on-error: true
         run : |
+          # Commit changes. Failure is allowed if there is nothing to commit.
           git config --global user.email 'flodolo@users.noreply.github.com'
           git config --global user.name 'Francesco Lodolo [:flod]'
           git add .github/storage
