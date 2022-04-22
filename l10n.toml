@@ -10,8 +10,8 @@ locales = [
 ]
 
 [[paths]]
-    reference = "en-US/all/*.ftl"
-    l10n = "{locale}/all/*.ftl"
+    reference = "en-US/*.ftl"
+    l10n = "{locale}/*.ftl"
 
 [[paths]]
     reference = "en-US/subset/colorway_97.ftl"
