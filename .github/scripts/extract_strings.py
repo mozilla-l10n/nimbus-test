@@ -33,18 +33,15 @@ class StringExtraction:
     def extractStrings(self):
         """Extract strings from TOML file."""
 
-        basedir = os.path.dirname(self.l10n_path)
-        project_config = paths.TOMLParser().parse(self.l10n_path, env={"l10n_base": ""})
-        basedir = os.path.join(basedir, project_config.root)
+        def extractLocale(locale):
+            """Extract strings for single locale"""
 
-        reference_cache = {}
-
-        if not project_config.all_locales:
-            print("No locales defined in the project configuration.")
-
-        for locale in project_config.all_locales:
             print(f"Extracting strings for locale: {locale}.")
-            files = paths.ProjectFiles(locale, [project_config])
+            if locale != self.reference_locale:
+                files = paths.ProjectFiles(locale, [project_config])
+            else:
+                files = paths.ProjectFiles(None, [project_config])
+
             for l10n_file, reference_file, _, _ in files:
                 if not os.path.exists(l10n_file):
                     # File not available in localization
@@ -60,16 +57,6 @@ class StringExtraction:
                     p = parser.getParser(reference_file)
                 except UserWarning:
                     continue
-                if key_path not in reference_cache:
-                    p.readFile(reference_file)
-                    reference_cache[key_path] = set(p.parse().keys())
-                    self.translations[self.reference_locale].update(
-                        (
-                            f"{experiment_id}:{entity.key}",
-                            entity.raw_val,
-                        )
-                        for entity in p.parse()
-                    )
 
                 p.readFile(l10n_file)
                 self.translations[locale].update(
@@ -89,6 +76,19 @@ class StringExtraction:
                 }
             print(f"  {len(self.translations[locale])} strings extracted")
 
+        basedir = os.path.dirname(self.l10n_path)
+        project_config = paths.TOMLParser().parse(self.l10n_path, env={"l10n_base": ""})
+        basedir = os.path.join(basedir, project_config.root)
+
+        if not project_config.all_locales:
+            print("No locales defined in the project configuration.")
+
+        # Extract reference locale first
+        extractLocale(self.reference_locale)
+
+        for locale in project_config.all_locales:
+            extractLocale(locale)
+
     def getTranslations(self):
         """Return translations and stats"""
 
@@ -107,7 +107,6 @@ class StringExtraction:
 
         # Identify complete locales for each experiment, and remove
         # translations for partially translated locales.
-        partial_experiments = []
         for exp_id, exp_data in json_output.items():
             locales = list(exp_data["translations"].keys())
             locales.sort()
@@ -125,15 +124,6 @@ class StringExtraction:
             # Remove partially translated locales
             for l in incomplete_locales:
                 del exp_data["translations"][l]
-
-            if (list(set(locales) - set(incomplete_locales))) == [
-                self.reference_locale
-            ]:
-                partial_experiments.append(exp_id)
-
-        # Remove experiments without complete translations
-        for exp_id in partial_experiments:
-            del json_output[exp_id]
 
         return json_output
 
