@@ -120,6 +120,7 @@ class StringExtraction:
                     exp_data["complete_locales"].append(l)
                 else:
                     incomplete_locales.append(l)
+            exp_data["complete_locales"].sort()
 
             # Remove partially translated locales
             for l in incomplete_locales:
