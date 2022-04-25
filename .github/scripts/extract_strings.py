@@ -79,6 +79,14 @@ class StringExtraction:
                     )
                     for entity in p.parse()
                 )
+
+            # Remove obsolete strings not available in the reference locale
+            if locale != self.reference_locale:
+                self.translations[locale] = {
+                    k: v
+                    for (k, v) in self.translations[locale].items()
+                    if k in self.translations[self.reference_locale]
+                }
             print(f"  {len(self.translations[locale])} strings extracted")
 
     def getTranslations(self):
@@ -99,17 +107,16 @@ class StringExtraction:
 
         # Identify complete locales for each experiment, and remove
         # translations for partially translated locales.
+        partial_experiments = []
         for exp_id, exp_data in json_output.items():
             locales = list(exp_data["translations"].keys())
             locales.sort()
             reference_ids = list(exp_data["translations"][self.reference_locale].keys())
-            reference_ids.sort()
 
             incomplete_locales = []
             for l in locales:
                 l10n_ids = list(exp_data["translations"][l].keys())
-                l10n_ids.sort()
-                if reference_ids == l10n_ids:
+                if len(set(reference_ids) - set(l10n_ids)) == 0:
                     exp_data["complete_locales"].append(l)
                 else:
                     incomplete_locales.append(l)
@@ -117,6 +124,15 @@ class StringExtraction:
             # Remove partially translated locales
             for l in incomplete_locales:
                 del exp_data["translations"][l]
+
+            if (list(set(locales) - set(incomplete_locales))) == [
+                self.reference_locale
+            ]:
+                partial_experiments.append(exp_id)
+
+        # Remove experiments without complete translations
+        for exp_id in partial_experiments:
+            del json_output[exp_id]
 
         return json_output
 
