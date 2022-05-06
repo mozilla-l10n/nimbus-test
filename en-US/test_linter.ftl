@@ -8,6 +8,8 @@ wrong_character = Too short
 button-quote = Wrong ' quote
 button-quote1 = Wrong "" quote
 
+button-with-var = This is a { $var }
+
 button-test2 = {
     $var ->
         [t] Foo
