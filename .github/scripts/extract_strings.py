@@ -62,7 +62,7 @@ class StringExtraction:
                 self.translations[locale].update(
                     (
                         f"{experiment_id}:{entity.key}",
-                        entity.raw_val,
+                        entity.raw_val if entity.raw_val is not None else "",
                     )
                     for entity in p.parse()
                 )
@@ -107,7 +107,7 @@ class StringExtraction:
 
         # Identify complete locales for each experiment, and remove
         # translations for partially translated locales.
-        for exp_id, exp_data in json_output.items():
+        for exp_data in json_output.values():
             locales = list(exp_data["translations"].keys())
             locales.sort()
             reference_ids = list(exp_data["translations"][self.reference_locale].keys())
